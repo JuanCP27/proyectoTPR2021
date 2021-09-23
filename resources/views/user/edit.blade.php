@@ -22,6 +22,7 @@
 
 	<form class="form-control" method="POST" action="{{url('user/'.$user->id)}}" enctype="multipart/form-data">
 			@csrf
+            @method('PUT')
 		<div class="form-group">
 			<label for="">Nombre y apellido</label>
 			<input type="text" name="name" value="{{$user->name}}" class="form-control">
@@ -41,7 +42,7 @@
 		</div>
 		<br>
 		<x-jet-button type="submit" class="ml-4">
-			{{ __('Guardar Usuario') }}
+			{{ __('Actualizar Usuario') }}
 		</x-jet-button>
 		<x-jet-button href="" class="ml-4">
 			<a href="/user/{{$user->id}}">Cancelar</a>

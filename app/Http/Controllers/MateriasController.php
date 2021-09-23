@@ -88,7 +88,23 @@ class MateriasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $materia = Materia::find($id); 
+
+        $validatedData = $request->validate([
+            'nombre'=>'required',
+            'sigla'=>'required',
+            'año'=>'required'
+            ]);
+            
+        
+        
+        $materia->nombre = $request->input('nombre');
+        $materia->sigla = $request->input('sigla');
+        $materia->año = $request->input('año');
+        $materia->update();
+
+        
+        return redirect()->back(); 
     }
 
     /**

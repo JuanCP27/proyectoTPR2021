@@ -98,7 +98,8 @@ class UsersController extends Controller
             'avatar'=>'required|image'
             ]);
             
-        $user = new User(); 
+        
+            
         if($request->hasFile('avatar')){
             $file = $request->file('avatar');
             $foto = time().$file->getClientOriginalName();
@@ -109,7 +110,7 @@ class UsersController extends Controller
         $user->profile_photo_path = $foto;
         $user->password = $request->input('password');
         $user->update();
-        
+        return redirect()->back(); 
     }
 
     /**

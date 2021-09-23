@@ -19,8 +19,9 @@
 @endif
 <div class="container mx-auto px-4">
 	<!-- ... -->
-	<form class="form-control" method="POST" action="/materias" enctype="multipart/form-data">
+	<form class="form-control" method="POST" action="{{url('materias/'.$materia->id)}}" enctype="multipart/form-data">
 		@csrf
+        @method('PUT')
 	<div class="form-group">
 		<label for="">Nombre de la materia</label>
 		<input type="text" name="nombre" value="{{$materia->nombre}}"class="form-control">
@@ -34,7 +35,7 @@
 		<input type="date" name="año" value="{{$materia->año}}" class="form-control">
 	</div>
 	
-	<button type="submit" class="btn btn-primary">Guardar materia</button>
+	<button type="submit" class="btn btn-primary">Actualizar materia</button>
 	
 </form>
   </div>
