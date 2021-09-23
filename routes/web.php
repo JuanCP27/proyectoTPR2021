@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\MateriasController;
+use App\Http\Controllers\ContenidosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,3 +22,9 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::resource('user', UsersController::class);
+Route::resource('materias', MateriasController::class);
+Route::resource('contenido', ContenidosController::class);
+Route::resource('asistencia', AsistenciasController::class);
+Route::resource('registros', RegistrosController::class);
