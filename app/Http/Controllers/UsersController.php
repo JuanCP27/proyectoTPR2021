@@ -91,7 +91,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $validatedData = $request->validate([
+            'name'=>'required',
+            'password'=>'required',
+            'avatar'=>'required|image'
+            ]);
+            
+        $user = new User(); 
+        if($request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $foto = time().$file->getClientOriginalName();
+            $file->move(public_path().'/images/',$foto);
+        }
+        $user->email = $request->input('email');
+        $user->name = $request->input('name');
+        $user->profile_photo_path = $foto;
+        $user->password = $request->input('password');
+        $user->update();
+        
     }
 
     /**

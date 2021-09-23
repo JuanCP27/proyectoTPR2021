@@ -17,7 +17,7 @@
                     <p class="mt-2 text-gray-800">una descripcion de ejemplo para rellenar con un poco de codigo hardcore, aguante informatica </p>
                     <a href="/user/{{$user->id}}" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Ver mas...</a>
                     <x-jet-button href="" class="ml-4">
-                        <a href="/user/edit/{{$user->id}}">Editar Usuario</a>
+                        <a href="/user/{{$user->id}}/edit">Editar Usuario</a>
                     </x-jet-button>
                 </div>
                 

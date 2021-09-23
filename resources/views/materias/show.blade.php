@@ -10,5 +10,7 @@
 <a href="/materias" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Volver a materias...</a>
 <a href="/contenido/create/?id_materia={{$materia->id}}" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Agregar temas ...</a>
 <a href="/contenido/?id={{$materia->id}}" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Mostrar temas ...</a>
-
+<x-jet-button href="" class="ml-4">
+    <a href="/materias/{{$materia->id}}/edit">Editar materia</a>
+</x-jet-button>
 @endsection

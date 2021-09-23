@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MateriasController;
 use App\Http\Controllers\ContenidosController;
+use App\Http\Controllers\AsistenciasController;
+use App\Http\Controllers\RegistrosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

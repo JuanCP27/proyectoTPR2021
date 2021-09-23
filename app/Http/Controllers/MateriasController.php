@@ -75,7 +75,8 @@ class MateriasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $materia = Materia::find($id);
+        return view('materias.edit', compact('materia'));
     }
 
     /**
