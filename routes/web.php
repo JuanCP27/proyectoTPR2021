@@ -6,6 +6,7 @@ use App\Http\Controllers\MateriasController;
 use App\Http\Controllers\ContenidosController;
 use App\Http\Controllers\AsistenciasController;
 use App\Http\Controllers\RegistrosController;
+Use App\Http\Controllers\RolController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,8 +26,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('user', UsersController::class);
-Route::resource('materias', MateriasController::class);
-Route::resource('contenido', ContenidosController::class);
-Route::resource('asistencia', AsistenciasController::class);
-Route::resource('registros', RegistrosController::class);
+Route::group(['middleware'=>'auth'], function(){
+    Route::resource('user', UsersController::class);
+    Route::resource('materias', MateriasController::class);
+    Route::resource('contenido', ContenidosController::class);
+    Route::resource('asistencia', AsistenciasController::class);
+    Route::resource('registros', RegistrosController::class);
+    Route::resource('roles', RolController::class);
+});

@@ -15,7 +15,6 @@ class CreateUsuariosTable extends Migration
     {
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_rol');
             $table->string('nombres');
             $table->string('apellidos');
             $table->string('fecha_nacimiento');
@@ -26,7 +25,6 @@ class CreateUsuariosTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('id_rol')->references('id')->on('rols');
         });
     }
 

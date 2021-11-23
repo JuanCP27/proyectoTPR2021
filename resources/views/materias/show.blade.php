@@ -1,16 +1,19 @@
-@extends('layouts.layout')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Materia') }}
+        </h2>
+    </x-slot>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <a type="button" href="{{route('contenido.create')}}" class="bg-green-500 px-12 py-2 rounded text-gray-100 hover:text-indigo-900">
+                    Nueva materia
+                  </a>
+              
 
-@section('title', 'Materias')
+            </div>
+        </div>
+    </div>
+</x-app-layout>
 
-@section('content')
-
-
-<h1>Bienvenido este es la materia {{$materia->nombre}} </h1>
-<br>
-<a href="/materias" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Volver a materias...</a>
-<a href="/contenido/create/?id_materia={{$materia->id}}" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Agregar temas ...</a>
-<a href="/contenido/?id={{$materia->id}}" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Mostrar temas ...</a>
-<x-jet-button href="" class="ml-4">
-    <a href="/materias/{{$materia->id}}/edit">Editar materia</a>
-</x-jet-button>
-@endsection

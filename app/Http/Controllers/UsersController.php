@@ -1,9 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\User;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -13,8 +15,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $user = User::paginate();
+    {   $user = User::paginate(5);
         return view('user.index', compact('user'));
     }
 
@@ -24,8 +25,12 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('user.create');
+    { 
+        $roles = Role::pluck('name','name')->all();
+        return view('user.create',compact('roles'));
+     
+
+        
     }
 
     /**
@@ -38,22 +43,24 @@ class UsersController extends Controller
     {
         $validatedData = $request->validate([
             'name'=>'required',
-            'password'=>'required',
-            'avatar'=>'required|image'
+            //'surname'=>'required',
+            'email'=>'required|email|unique:users,email',
+            'password'=>'required|same:confirm-password',
+            //'avatar'=>'required|image'
             ]);
-            
-        $user = new User(); 
-        if($request->hasFile('avatar')){
-            $file = $request->file('avatar');
-            $foto = time().$file->getClientOriginalName();
-            $file->move(public_path().'/images/',$foto);
-        }
-        $user->email = $request->input('email');
-        $user->name = $request->input('name');
-        $user->profile_photo_path = $foto;
-        $user->password = $request->input('password');
-        $user->save();
 
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+
+        //if($request->hasFile('avatar')){
+            //$file = $request->file('avatar');
+           // $foto = time().$file->getClientOriginalName();
+           // $file->move(public_path().'/images/',$foto);
+       // }
+        $user = User::create($input);
+        //$user->profile_photo_path = $foto; 
+        $user->assignRole($request->input('roles'));
+        $user->save();
         $user = User::All();
         return view('user.index', compact('user')); 
     }
@@ -64,9 +71,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $user = User::find($id);
+    public function show($user)
+    {   
+        $user = User::find($user);
         return view('user.show', compact('user'));
     }
 
@@ -79,7 +86,12 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('user.edit', compact('user'));
+        $roles = Role::pluck('name','name')->all();
+        $userRole = $user->roles->pluck('name','name')->all();
+
+
+        return view('user.edit',compact('user','roles','userRole'));
+       
     }
 
     /**
@@ -91,26 +103,42 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        
+        
         $validatedData = $request->validate([
-            'name'=>'required',
-            'password'=>'required',
-            'avatar'=>'required|image'
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            //'password' => 'same:confirm-password',
+            'roles' => 'required',
+            //'avatar'=>'required|image',
             ]);
             
         
             
-        if($request->hasFile('avatar')){
-            $file = $request->file('avatar');
-            $foto = time().$file->getClientOriginalName();
-            $file->move(public_path().'/images/',$foto);
+        //if($request->hasFile('avatar')){
+          //  $file = $request->file('avatar');
+            //$foto = time().$file->getClientOriginalName();
+           // $file->move(public_path().'/images/',$foto);
+        //}
+        
+        $input = $request->all();
+        if(!empty($input['password'])){ 
+            $input['password'] = Hash::make($input['password']);
+        }else{
+            $input = Arr::except($input,array('password'));    
         }
-        $user->email = $request->input('email');
-        $user->name = $request->input('name');
-        $user->profile_photo_path = $foto;
-        $user->password = $request->input('password');
-        $user->update();
-        return redirect()->back(); 
+
+        $user = User::find($id);
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+
+        //$user->profile_photo_path = $foto;
+        $user->assignRole($request->input('roles'));
+
+        return redirect()->route('user.index');
+        //->with('success','User updated successfully');
+        
+        
     }
 
     /**

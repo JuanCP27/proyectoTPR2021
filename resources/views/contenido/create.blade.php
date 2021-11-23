@@ -24,7 +24,7 @@
 		@csrf
 		<div class="form-group">
 			
-			<input type="text" name="id_materia" value={{$id_materia}} class="form-control">
+			<input type="number" name="id_materia" value="{{$id_materia}}" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="">Nombre del nuevo Tema</label>

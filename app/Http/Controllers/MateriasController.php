@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contenido;
 use Illuminate\Http\Request;
 use App\Models\Materia;
+use App\Models\User;
 
 class MateriasController extends Controller
 {
@@ -25,6 +27,7 @@ class MateriasController extends Controller
      */
     public function create()
     {
+        
         return view('materias.create');
     }
 
@@ -38,15 +41,21 @@ class MateriasController extends Controller
     {
         $validatedData = $request->validate([
             'nombre'=>'required',
-            'sigla'=>'required',
-            'año'=>'required'
-            ]);
+            'sigla'=>'required|unique:materias,sigla',
+            't_inicio'=>'required',
+            't_final'=>'required',
+            'año'=>'required',
+        ]);
+
+        $input = $request->all();
             
-        $materia = new Materia(); 
+        $materia = new Materia($input); 
         
-        $materia->nombre = $request->input('nombre');
-        $materia->sigla = $request->input('sigla');
+        $materia->t_inicio = $request->input('t_inicio');
+        $materia->t_final = $request->input('t_final');
         $materia->año = $request->input('año');
+
+        
         $materia->save();
 
         $materia = Materia::All();
@@ -61,10 +70,9 @@ class MateriasController extends Controller
      */
     public function show($id)
     {
-        
-        $materia = Materia::find($id);
-        return view('materias.show', compact('materia'));
-        
+        $contenido = Contenido::where('id_materia',$id)->get();
+        $materia=Materia::get('id',$id);
+        return view('materias.show', compact('contenido'));
     }
 
     /**

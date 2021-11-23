@@ -15,7 +15,30 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+                    
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')">
+                        {{ __('Roles') }}
+                    </x-jet-nav-link>
+                    
+                </div>
+                
+                    
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.*')">
+                        {{ __('Users') }}
+                    </x-jet-nav-link>                    
+                </div>
+                    
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('materias.index') }}" :active="request()->routeIs('materias.*')">
+                        {{ __('Materias') }}
+                    </x-jet-nav-link>                    
+                </div>
+                
+                
+
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">

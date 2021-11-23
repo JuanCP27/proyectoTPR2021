@@ -9,7 +9,8 @@ use App\Models\Registro;
 class Materia extends Model
 {
     use HasFactory;
-
+    
+    protected $fillable = ['nombre','sigla','año'];
     public function registro(){
         return $this->belongsTo(Registro::class);
     }

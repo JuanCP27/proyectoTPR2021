@@ -8,7 +8,7 @@
 
     @yield('title')
 </head>
-<body>
+<body class=" bg-blue-400 mx-4 ">
     @yield('content')
 </body>
 </html>

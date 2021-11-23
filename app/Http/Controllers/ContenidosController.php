@@ -12,11 +12,11 @@ class ContenidosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $id2 = ['id'=>$request->query('id', 'nn')];
         
-        $contenido = Contenido::where('id_materia',$id2)->get();
+        
+        $contenido = Contenido::all();
         return view('contenido.index', compact('contenido'));
     }
 
@@ -27,7 +27,7 @@ class ContenidosController extends Controller
      */
     public function create(Request $request)
     {
-        $id2 = ['id_materia'=>$request->query('id_materia', 'nn')];
+        $id2 = ['id_materia'=>$request->query('id_materia', '')];
         return view('contenido.create')->with($id2);
     }
 

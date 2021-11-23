@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asistencia;
+use App\Models\Tipo_asistencia;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AsistenciasController extends Controller
 {
@@ -13,7 +16,9 @@ class AsistenciasController extends Controller
      */
     public function index()
     {
-        return view('asistencias.create');
+        $asistencia = Asistencia::paginate();
+        return view('asistencias.index', compact('asistencia'));
+        
     }
 
     /**
@@ -21,9 +26,12 @@ class AsistenciasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $user)
     {
-        //
+        $id=$user->id;
+        $user=User::where('id','id');
+        $Tipo_asistencia = Tipo_asistencia::all();
+        return view('asistencias.create', compact('Tipo_asistencia','user'));
     }
 
     /**
@@ -33,8 +41,24 @@ class AsistenciasController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+        {
+            $validatedData = $request->validate([
+                'fecha_registro'=>'required',
+                
+                'estado'=>'required'
+                ]);
+                
+            $asistencia = new Asistencia(); 
+            
+       
+            $asistencia->fecha_registro = $request->input('fecha_registro');
+            $asistencia->id_tipo = $request->input('id_tipo');
+            $asistencia->estado = $request->input('estado');
+            $asistencia->save();
+    
+            $asistencia = Asistencia::All();
+            return view('asistencia.index', compact('asistencia')); 
+
     }
 
     /**
@@ -56,7 +80,9 @@ class AsistenciasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $asistencia = Asistencia::find($id);
+        $Tipo_asistencia = Tipo_asistencia::all();
+        return view('asistencias.edit', compact('asistencia', 'Tipo_asistencia'));
     }
 
     /**
@@ -68,7 +94,23 @@ class AsistenciasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $asistencia = Asistencia::find($id); 
+
+        $validatedData = $request->validate([
+            'fecha_registro'=>'required',
+            'id_tipo'=>'required',
+            'estado'=>'required'
+            ]);
+            
+        
+        
+        $asistencia->fecha_registro = $request->input('fecha_registro');
+        $asistencia->id_tipo = $request->input('id_tipo');
+        $asistencia->estado = $request->input('estado');
+        $asistencia->update();
+
+        
+        return redirect('/asistencia');
     }
 
     /**
